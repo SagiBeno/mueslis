@@ -40,7 +40,8 @@ export default class App extends React.Component {
             </thead>
             <tbody>
               {/*<tr><td>1</td><td>Classic Muesli</td><td>$4.65</td></tr>*/}
-            
+              {/*JSON.stringify(this.state.muesliData)*/}
+              { this.state.muesliData.result.map() /*TODO*/ }
             </tbody>
           </table>
         </main>
@@ -54,6 +55,8 @@ export default class App extends React.Component {
       console.log('muesliData ', muesliData)
       muesliData = await muesliData.json()
       console.log('muesliData ', muesliData)
+
+      this.setState({muesliData})
     } catch (e) {
       console.warn(e)
     }
