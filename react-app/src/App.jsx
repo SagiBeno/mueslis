@@ -8,16 +8,22 @@ import AboutPage from './pages/AboutPage'
 
 export default class App extends React.Component {
   state = {
-    menuItemSelected: 'products'
+    menuItemSelected: 'products',
+    menuExpanded: false
   }
 
   handleProductsMenuItemClick = e => this.setState({menuItemSelected: 'products'})
   handleAboutMenuItemClick = e => this.setState({menuItemSelected: 'about'})
 
+  handleNavMouseEnter = e => this.setState({menuExpanded: true})
+  handleNavMouseLeave = e => this.setState({menuExpanded: false})
+
   render() {
     return (
       <div className='page-container'>
-        <nav id="navbar" title="Select a menu item" className='expanded' >
+        <nav id="navbar" title="Select a menu item" className={this.state.menuExpanded ? "expanded" : "" } 
+          onMouseEnter={this.handleNavMouseEnter}
+          onMouseLeave={this.handleNavMouseLeave}>
           <div className="menu-item" tabIndex="0" data-content="products" onClick={this.handleProductsMenuItemClick}>
             <span className="menu-icon">📦</span>
             <span className="menu-text">Products</span>
