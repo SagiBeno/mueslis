@@ -6,7 +6,9 @@ import './App.css'
 
 export default class App extends React.Component {
   state = {
-    muesliData: null
+    muesliData: {
+      result: []
+    }
   }
 
   render() {
@@ -41,7 +43,12 @@ export default class App extends React.Component {
             <tbody>
               {/*<tr><td>1</td><td>Classic Muesli</td><td>$4.65</td></tr>*/}
               {/*JSON.stringify(this.state.muesliData)*/}
-              { this.state.muesliData.result.map() /*TODO*/ }
+              { this.state.muesliData.result.map(muesli => 
+                <tr key={muesli.id}>
+                  <td>{muesli.id}</td>{/* Ha nem stringként akarjuk akkor: +muesli.id */}
+                  <td>{muesli.name}</td>
+                  <td>{muesli.price}</td>
+                </tr>)}
             </tbody>
           </table>
         </main>
