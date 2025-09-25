@@ -10,14 +10,14 @@ const conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '', // TODO - credential!
-    database: 'mueaslis'
+    database: 'mueslis'
 })
 
 app.get('/mueslis', (req, res) => {
     //conn.connect(err => console.warn('connect err ', err));
     //console.log('conn: ', conn);
 
-    conn.query('SELECT id, name, price FROM mueslis', (err, result, fields) => {
+    conn.query('SELECT id, name, price FROM muesli', (err, result, fields) => {
         if (err) console.warn(err)
         if (result) {
             console.log(result)
@@ -27,6 +27,17 @@ app.get('/mueslis', (req, res) => {
         } else {
             res.status(403).json({err})
         }
+    })
+})
+
+app.post('/mueslis', (req, res) => {
+    const {name, price} = req.body // destruktúráló szintaxys
+    if (!name || price < 1) res.sendStatus(300)
+    
+    conn.query("INSERT INTO muesli (name, price) VALUE (?, ?)", [name, price], (err, result, fields) =>{
+        const insertId = result?.insertId
+        console.log('isnertId', insertId)
+        res.status(201).json({insertId})
     })
 })
 
