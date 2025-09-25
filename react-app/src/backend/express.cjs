@@ -37,7 +37,8 @@ app.post('/mueslis', (req, res) => {
     conn.query("INSERT INTO muesli (name, price) VALUE (?, ?)", [name, price], (err, result, fields) =>{
         const insertId = result?.insertId
         console.log('isnertId', insertId)
-        res.status(201).json({insertId})
+        const responseBody = {id: +insertId, ...req.body}
+        res.status(201).json(responseBody)
     })
 })
 
