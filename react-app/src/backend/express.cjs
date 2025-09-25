@@ -42,6 +42,39 @@ app.post('/mueslis', (req, res) => {
     })
 })
 
+app.patch('/mueslis', (req, res) => {
+    const {id} = req.body
+    const newName = 'name' in req.body ? req.body.name : null /* req.body.name ? req.body.name : null */
+    const newPrice = +req.body.price>0 ? +req.body.price : NaN
+
+    let queryStr = "UPDATE muesli SET " /* TODO HF querySrt megoldás */
+
+    const updates = []
+    const values = []
+
+    if (newName) {
+        updates.push("name=?")
+        values.push(newName)
+    }
+
+    if (newPrice > 0) {
+        updates.push("price=?")
+        values.push(+newPrice)
+    }
+
+    values.push(+id)
+
+
+    conn.query(`UPDATE muesli SET ${updates.join(",")} WHERE id=?`, 
+        values, 
+        (err, result, fields) => {
+            console.log('Update result: ', result)
+            if (err) res.status(300).json({err})
+            else res.status(200).json({updatedId: id, newName, newPrice, ...result})
+        }
+    )
+})
+
 app.get((err, req, res) => {
     if (err) res.status(404).send("<h1>404 Not Found (Hello world :) )</h1>")
     else res.sendStatus(200)    
