@@ -85,13 +85,13 @@ main h1 {
 }
 
 .table-wrapper {
-  width: 100%;
+  width: 95%;
   display: block;
 
   overflow-x: auto;
-  overflow-y: auto;
+  overflow-y: scroll;
 
-  max-height: 800px;
+  height: 80vh;
 }
 
 table {
@@ -100,7 +100,7 @@ table {
   min-width: 600px;
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
   border-radius: 8px;
-  overflow: hidden;
+
 }
 
 thead {
@@ -134,3 +134,11 @@ main .about-paragraph {
   height: 100vh;
   overflow: hidden;
 }    
+
+@media (max-width: 800px) {
+  .table-wrapper {
+    width: 90vw;
+    overflow-y: scroll;
+    height: 80vh;
+  }
+}
