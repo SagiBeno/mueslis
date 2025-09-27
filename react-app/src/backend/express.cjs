@@ -75,6 +75,28 @@ app.patch('/mueslis', (req, res) => {
     )
 })
 
+app.delete('/mueslis/:id', (req, res) => {
+    const id = req.params?.id
+
+    conn.query('SELECT id, name, price FROM muesli WHERE id = ?',
+        [id],
+        (err, rows) => {
+            if (err) res.status(500).json({err});
+            if (!rows || rows.length == 0) res.status(404).json({ error: 'Not found' });
+
+            const deleted = rows[0];
+
+            conn.query('DELETE FROM muesli WHERE id = ?',
+                [id],
+                (err2, result, fields) => {
+                    if (err2) res.status(500).json({ err2 });
+                    else res.status(200).json({ deleted });
+                }
+            );
+        }
+    );
+});
+
 app.get((err, req, res) => {
     if (err) res.status(404).send("<h1>404 Not Found (Hello world :) )</h1>")
     else res.sendStatus(200)    
