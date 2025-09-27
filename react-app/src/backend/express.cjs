@@ -55,16 +55,30 @@ app.patch('/mueslis', (req, res) => {
     if (newName) {
         updates.push("name=?")
         values.push(newName)
+        queryStr += " name = ?"
     }
 
     if (newPrice > 0) {
         updates.push("price=?")
         values.push(+newPrice)
+
+        if (newName)  queryStr += ", price = ?"
+        else queryStr += " price = ?"
     }
 
+    queryStr += " WHERE id = ?"
     values.push(+id)
 
+    conn.query(queryStr, 
+        values,
+        (err, result, fields) => {
+            console.log("Updated result: ", result)
+            if (err) res.status(300).json({err})
+            else res.status(200).json({updatedId: id, newName, newPrice, ...result})     
+        }
+    )
 
+    /*
     conn.query(`UPDATE muesli SET ${updates.join(",")} WHERE id=?`, 
         values, 
         (err, result, fields) => {
@@ -73,6 +87,7 @@ app.patch('/mueslis', (req, res) => {
             else res.status(200).json({updatedId: id, newName, newPrice, ...result})
         }
     )
+        */
 })
 
 app.delete('/mueslis/:id', (req, res) => {
@@ -80,15 +95,15 @@ app.delete('/mueslis/:id', (req, res) => {
 
     conn.query('SELECT id, name, price FROM muesli WHERE id = ?',
         [id],
-        (err, rows) => {
+        (err, result, fields) => {
             if (err) res.status(500).json({err});
-            if (!rows || rows.length == 0) res.status(404).json({ error: 'Not found' });
+            if (!result || result.length == 0) res.status(404).json({ error: 'Not found' });
 
-            const deleted = rows[0];
-
+            const deleted = result[0];
+            
             conn.query('DELETE FROM muesli WHERE id = ?',
                 [id],
-                (err2, result, fields) => {
+                (err2, result2, fields2) => {
                     if (err2) res.status(500).json({ err2 });
                     else res.status(200).json({ deleted });
                 }
