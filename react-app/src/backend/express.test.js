@@ -4,19 +4,26 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import { app, conn } from './express.cjs';
 
-describe('Test Vitest', ()=>{
+describe('Test Vitest', () => {
     // Creates a suite of tests, allowing for grouping and hierarchical organization of tests.
 
-    it('tests if 2+3=5', ()=>{
+    it('tests if 2+3=5', () => {
         // Defines a test case with a given name and test function.
 
-        expect(2+3).toBe(5);
+        expect(2 + 3).toBe(5);
+
+        const floating = 0.1 + 0.2;
+        const delta = 0.0001;
+        console.log(floating); // 0.30000000000000004
+        expect(floating).toBeGreaterThanOrEqual(0.3);
+        expect(floating).toBeLessThanOrEqual(0.3 + delta);
+        // expect(2+3).toBe(6); // AssertionError: expected 5 to be 6 
         // Checks that a value is what you expect. It calls Object.is to compare values. Don't use toBe with floating-point numbers.
     })
 })
 
-describe('Imports', ()=>{
-    it('validates imports existence', ()=>{
+describe('Imports', () => {
+    it('validates imports existence', () => {
         expect(app).not.toBeNull();
         expect(conn).not.toBeNull();
     })
