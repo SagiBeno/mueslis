@@ -40,7 +40,8 @@ describe('Mueslis Endpoints', () => {
     });
 
     it('GET /mueslis returns mueslis list', async () => {
-
+        const res = await request(app).get('/mueslis');
+        expect(res.status).toBe(200);
     })
 
     it('POST /mueslis creates with valid data', async () => {
