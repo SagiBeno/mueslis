@@ -1,3 +1,5 @@
+// TODO npm i vitest supertest jsdom @vitest/ui
+
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import { app, conn } from './express.cjs';
