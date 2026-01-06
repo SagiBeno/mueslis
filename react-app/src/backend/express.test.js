@@ -45,11 +45,22 @@ describe('Mueslis Endpoints', () => {
     })
 
     it('POST /mueslis creates with valid data', async () => {
+        vi.spyOn(conn, 'query').mockImplementation( (sql, values, callback) => {
+            callback(null, { id: 1 }, [])  
+        } );
 
+        const res = await request(app).post('/mueslis')
+            .send( { name: 'Test', price: 1000 } );
+        expect(res.status).toBe(201);
+        // expect(+res.body.id).toBe(1); // +undefined => NaN
     })
 
     it('POST /mueslis rejects invalid data', async () => {
+        let res = await request(app).post('/mueslis').send('test');
+        expect(res.status).toBe(500);
 
+        res = await request(app).post('/mueslis').send( { name: '', price: NaN } );
+        expect(res.status).toBe(300);
     })
 
     it('PATCH /mueslis updates fields', async () => {

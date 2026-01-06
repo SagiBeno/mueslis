@@ -32,7 +32,7 @@ app.get('/mueslis', (req, res) => {
 
 app.post('/mueslis', (req, res) => {
     const {name, price} = req.body // destruktúráló szintaxys
-    if (!name || price < 1) res.sendStatus(300)
+    if (!name || price < 1) return res.status(300).json( { error: 'Invalid data!' } );
     
     conn.query("INSERT INTO muesli (name, price) VALUE (?, ?)", [name, price], (err, result, fields) =>{
         const insertId = result?.insertId
