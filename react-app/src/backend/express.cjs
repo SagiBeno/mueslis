@@ -9,7 +9,7 @@ app.use(express.json())
 const conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '', // TODO - credential!
+    password: '',
     database: 'mueslis'
 })
 
@@ -47,7 +47,7 @@ app.patch('/mueslis', (req, res) => {
     const newName = 'name' in req.body ? req.body.name : null /* req.body.name ? req.body.name : null */
     const newPrice = +req.body.price>0 ? +req.body.price : NaN
 
-    let queryStr = "UPDATE muesli SET " /* TODO HF querySrt megoldás */
+    let queryStr = "UPDATE muesli SET "
 
     const updates = []
     const values = []
