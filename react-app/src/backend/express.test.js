@@ -159,21 +159,21 @@ describe("Mueslis Endpoints", () => {
     });
 
     it("DELETE /mueslis/:id returns 500 when DELETE fails", async () => {
-      const deletedRow = { id: 5, name: "Choco", price: 999 };
-    
-      vi.spyOn(conn, "query").mockImplementation((sql, values, callback) => {
-        if (sql.startsWith("SELECT")) {
-          return callback(null, [deletedRow], []);
-        }
-        if (sql.startsWith("DELETE")) {
-          return callback(new Error("DB delete error"), null, null);
-        }
-        callback(new Error("Unexpected SQL in test"));
-      });
-    
-      const res = await request(app).delete("/mueslis/5");
-    
-      expect(res.status).toBe(500);
-      expect(res.body).toHaveProperty("err2");
+        const deletedRow = { id: 5, name: "Choco", price: 999 };
+        
+        vi.spyOn(conn, "query").mockImplementation((sql, values, callback) => {
+            if (sql.startsWith("SELECT")) {
+              return callback(null, [deletedRow], []);
+            }
+            if (sql.startsWith("DELETE")) {
+              return callback(new Error("DB delete error"), null, null);
+            }
+            callback(new Error("Unexpected SQL in test"));
+        });
+      
+        const res = await request(app).delete("/mueslis/5");
+      
+        expect(res.status).toBe(500);
+        expect(res.body).toHaveProperty("err2");
     });
 });
